@@ -14,6 +14,7 @@ export type EndpointId =
   | 'overview'
   | 'frags+backpacks'
   | 'frags+demoinfo'
+  | '__demoinfo_teams__'
 
 export interface StatDescriptor {
   /** Unique machine ID used in API and config */
