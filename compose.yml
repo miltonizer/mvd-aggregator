@@ -7,8 +7,8 @@ services:
     ports:
       - "127.0.0.1:3001:3001"
     networks:
-      - qw-net
+      - web
 
 networks:
-  qw-net:
+  web:
     external: true
