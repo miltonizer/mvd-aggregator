@@ -4,8 +4,8 @@ A web app for searching and aggregating statistics across QuakeWorld MVD demo ga
 
 ## Architecture
 
-- **Frontend** — React + Vite (port `5173` in dev)
-- **Backend** — Express API server (port `3001`)
+- **Frontend** — React + Vite
+- **Backend** — Express API server
 - **Data sources**
   - Game index: QuakeWorld Hub (hub.quakeworld.nu) — read-only PostgREST API
   - Demo parsing: [`mvd-api`](../mvd_analyzer/mvd-api/) (must be running separately)
@@ -67,12 +67,6 @@ The Express server will serve the compiled client files.
 | `npm run build` | Compile TypeScript and bundle the client |
 | `npm start` | Run the compiled production server |
 
-## Docker / production deployment
-
-The app is served under a configurable base path (default `/mvd_aggregator/`) behind Caddy, alongside `mvd-api` from [mvd_analyzer](../mvd_analyzer/).
-
-Both services join the external Docker `web` network so Caddy can proxy to them by service name.
-
 **Build and start:**
 ```sh
 docker compose up -d --build
@@ -82,8 +76,8 @@ docker compose up -d --build
 
 | Variable | Description |
 |---|---|
-| `QUAKEWORLD_HUB_API_URL` | Supabase PostgREST endpoint for the game index |
-| `QUAKEWORLD_HUB_API_ANON_KEY` | Supabase anon JWT for the game index |
+| `QUAKEWORLD_HUB_API_URL` | Quakeworld Hub endpoint for the game index |
+| `QUAKEWORLD_HUB_API_ANON_KEY` | Quakeworld Hub anon JWT for the game index |
 | `MVD_API_URL` | URL of mvd-api — use `http://mvd-api:8080` in Docker, `http://localhost:7890` locally |
 | `PORT` | Port the Express server listens on (default `3001`) — must match Caddy snippet |
 | `VITE_BASE_PATH` | URL path prefix (default `/mvd_aggregator/`) — must match Caddy `handle_path` and requires rebuild |
