@@ -42,7 +42,7 @@ export default function App() {
 
   // Load stat registry on mount
   useEffect(() => {
-    fetch('/api/stats')
+    fetch(`${import.meta.env.BASE_URL}api/stats`)
       .then((r) => r.json())
       .then((data: StatMeta[]) => {
         setStatMetas(data)
@@ -72,7 +72,7 @@ export default function App() {
         params.set('limit', String(PAGE_SIZE))
         params.set('offset', String(pageOffset))
 
-        const resp = await fetch(`/api/search?${params.toString()}`)
+        const resp = await fetch(`${import.meta.env.BASE_URL}api/search?${params.toString()}`)
         if (!resp.ok) throw new Error(`Search failed: ${resp.status}`)
         const data = await resp.json() as { games: HubGame[]; count: number }
         setGames(data.games)
@@ -127,7 +127,7 @@ export default function App() {
       if (searchValues.to) params.set('to', searchValues.to)
       params.set('limit', '500')
       params.set('offset', '0')
-      const resp = await fetch(`/api/search?${params.toString()}`)
+      const resp = await fetch(`${import.meta.env.BASE_URL}api/search?${params.toString()}`)
       if (!resp.ok) throw new Error(`Search failed: ${resp.status}`)
       const data = await resp.json() as { games: HubGame[]; count: number }
       setSelectedGames(new Set(data.games.map((g) => g.id)))
@@ -171,7 +171,7 @@ export default function App() {
     setResults(null)
 
     try {
-      const resp = await fetch('/api/aggregate', {
+      const resp = await fetch(`${import.meta.env.BASE_URL}api/aggregate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

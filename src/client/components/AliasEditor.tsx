@@ -18,7 +18,7 @@ export default function AliasEditor({ onClose }: AliasEditorProps) {
   const [newNicks, setNewNicks] = useState('')
 
   useEffect(() => {
-    fetch('/api/aliases')
+    fetch(`${import.meta.env.BASE_URL}api/aliases`)
       .then((r) => r.json())
       .then((data: AliasMap) => { setAliases(data); setLoading(false) })
       .catch((e) => { setError(String(e)); setLoading(false) })
@@ -60,7 +60,7 @@ export default function AliasEditor({ onClose }: AliasEditorProps) {
     setError(null)
     setSaved(false)
     try {
-      const res = await fetch('/api/aliases', {
+      const res = await fetch(`${import.meta.env.BASE_URL}api/aliases`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(aliases),
