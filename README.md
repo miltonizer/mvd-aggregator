@@ -66,3 +66,28 @@ The Express server will serve the compiled client files.
 | `npm run dev:server` | Start Express server only (with hot reload) |
 | `npm run build` | Compile TypeScript and bundle the client |
 | `npm start` | Run the compiled production server |
+
+## Docker / production deployment
+
+The app is served under a configurable base path (default `/mvd_aggregator/`) behind Caddy, alongside `mvd-api` from [mvd_analyzer](../mvd_analyzer/).
+
+Both services join the external Docker `web` network so Caddy can proxy to them by service name.
+
+**Build and start:**
+```sh
+docker compose up -d --build
+```
+
+**Configuration (`.env`):**
+
+| Variable | Description |
+|---|---|
+| `QUAKEWORLD_HUB_API_URL` | Supabase PostgREST endpoint for the game index |
+| `QUAKEWORLD_HUB_API_ANON_KEY` | Supabase anon JWT for the game index |
+| `MVD_API_URL` | URL of mvd-api — use `http://mvd-api:8080` in Docker, `http://localhost:7890` locally |
+| `PORT` | Port the Express server listens on (default `3001`) — must match Caddy snippet |
+| `VITE_BASE_PATH` | URL path prefix (default `/mvd_aggregator/`) — must match Caddy `handle_path` and requires rebuild |
+
+**To change the base path:** update `VITE_BASE_PATH` in `.env` and `handle_path` in `caddy/snippets/mvd_aggregator.caddy`, then `docker compose up -d --build` and reload Caddy.
+
+**To change the port:** update `PORT` in `.env` and `reverse_proxy` in `caddy/snippets/mvd_aggregator.caddy`, then `docker compose up -d` and reload Caddy.
