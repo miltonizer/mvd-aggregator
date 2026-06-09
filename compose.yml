@@ -1,6 +1,9 @@
 services:
   mvd-aggregator:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_BASE_PATH: ${VITE_BASE_PATH:-/mvd_aggregator/}
     image: mvd-aggregator:latest
     restart: unless-stopped
     env_file: .env

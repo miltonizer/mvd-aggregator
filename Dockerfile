@@ -6,6 +6,11 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+
+# Build-time base path (e.g. /mvd_aggregator/) — must match Caddy's handle_path
+ARG VITE_BASE_PATH=/mvd_aggregator/
+ENV VITE_BASE_PATH=${VITE_BASE_PATH}
+
 RUN npm run build
 
 # ---- runtime stage ---------------------------------------------------------
