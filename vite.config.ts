@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       [`${process.env.VITE_BASE_PATH ?? '/mvd_aggregator/'}api`]: {
-        target: 'http://localhost:3001',
+        target: `http://localhost:${process.env.PORT ?? 3001}`,
         rewrite: (path) => path.replace(process.env.VITE_BASE_PATH ?? '/mvd_aggregator/', '/'),
       },
     },
