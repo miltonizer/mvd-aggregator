@@ -1,0 +1,14 @@
+services:
+  mvd-aggregator:
+    build: .
+    image: mvd-aggregator:latest
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3001:3001"
+    networks:
+      - qw-net
+
+networks:
+  qw-net:
+    external: true
