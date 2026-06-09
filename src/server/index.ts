@@ -1,13 +1,21 @@
 import express from 'express'
 import cors from 'cors'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import { searchGames } from './hub.js'
 import { aggregate } from './stats/engine.js'
 import { getStatMeta } from './stats/registry.js'
 import { getAliases, saveAliases, type AliasMap } from './aliases.js'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const CLIENT_DIR = join(__dirname, '../client')
+
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+// ---- Static client ---------------------------------------------------------
+app.use(express.static(CLIENT_DIR))
 
 // ---- Search ---------------------------------------------------------------
 app.get('/api/search', async (req, res) => {
@@ -119,6 +127,11 @@ app.post('/api/aggregate', (req, res) => {
 })
 
 // ---- Start ----------------------------------------------------------------
+// Catch-all: serve index.html for any non-API route (client-side routing)
+app.get('*', (_req, res) => {
+  res.sendFile(join(CLIENT_DIR, 'index.html'))
+})
+
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001
 app.listen(PORT, () => {
   console.log(`mvd-aggregator server listening on http://localhost:${PORT}`)
