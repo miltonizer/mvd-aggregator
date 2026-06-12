@@ -7,6 +7,8 @@ services:
     image: mvd-aggregator:latest
     restart: unless-stopped
     env_file: .env
+    volumes:
+      - ./aliases.json:/app/aliases.json
     ports:
       - "127.0.0.1:${PORT:-3001}:${PORT:-3001}"
     networks:

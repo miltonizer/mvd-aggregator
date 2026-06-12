@@ -52,7 +52,11 @@ export function resolvePlayerSync(name: string): string {
 
 /** Read current alias map from disk. */
 export async function getAliases(): Promise<AliasMap> {
-  return load()
+  try {
+    return await load()
+  } catch {
+    return {}
+  }
 }
 
 /** Write a new alias map to disk and rebuild the inverted map. */

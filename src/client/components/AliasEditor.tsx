@@ -19,7 +19,10 @@ export default function AliasEditor({ onClose }: AliasEditorProps) {
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}api/aliases`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`Failed to load aliases: ${r.status}`)
+        return r.json()
+      })
       .then((data: AliasMap) => { setAliases(data); setLoading(false) })
       .catch((e) => { setError(String(e)); setLoading(false) })
   }, [])
