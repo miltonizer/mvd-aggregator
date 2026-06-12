@@ -5,12 +5,13 @@ services:
       args:
         VITE_BASE_PATH: ${VITE_BASE_PATH:-/mvd_aggregator/}
     image: mvd-aggregator:latest
+    container_name: mvd-aggregator
     restart: unless-stopped
     env_file: .env
     volumes:
       - ./aliases.json:/app/aliases.json
     ports:
-      - "127.0.0.1:${PORT:-3001}:${PORT:-3001}"
+      - "127.0.0.1:${PORT:-3800}:${PORT:-3800}"
     networks:
       - web
 

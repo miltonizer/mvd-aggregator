@@ -23,8 +23,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=build /app/dist ./dist
-COPY aliases.json ./aliases.json
 
-EXPOSE 3001
+EXPOSE 3800
 
 CMD ["node", "dist/server/index.js"]
